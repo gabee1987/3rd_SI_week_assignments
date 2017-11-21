@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 
 namespace InputValidation
 {
-    class RegexValidation
+    public class RegexValidation
     {
         public static bool IsNameValid(string input)
         {
@@ -16,7 +11,14 @@ namespace InputValidation
             string lastNameRegex = @"[A-Za-zÀ-ú]+$";
             string pattern = firstNameRegex + whiteSpaceRegex + lastNameRegex;
 
-            return Regex.IsMatch(input, pattern);
+            if (input != null)
+            {
+                return Regex.IsMatch(input, pattern);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public static bool IsPhoneValid(string input)
