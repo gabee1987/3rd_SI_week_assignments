@@ -51,6 +51,12 @@ namespace InputValidation
             }
         }
 
+        private void PhoneTextBox_Leave(object sender, EventArgs e)
+        {
+            string originalPhoneTextBoxText = PhoneTextBox.Text;
+            PhoneTextBox.Text = RegexValidation.ReformatPhoneNumber(originalPhoneTextBoxText);
+        }
+
         #endregion
 
         #region ErrorProviders

@@ -103,7 +103,7 @@ namespace InputValidationTest
         {
             // Arrange
             string testInput = "30 986 6768";
-            bool expected = true;
+            bool expected = false;
 
             // Act
             bool control = RegexValidation.IsPhoneValid(testInput);
@@ -225,7 +225,6 @@ namespace InputValidationTest
         }
 
         #endregion
-
 
         #region IsEmailValid method tests
 
