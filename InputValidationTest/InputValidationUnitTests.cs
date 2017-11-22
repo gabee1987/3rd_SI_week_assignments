@@ -25,10 +25,24 @@ namespace InputValidationTest
         }
 
         [TestMethod]
-        public void Test_IsNameValid_CanAcceptOtherThanLetters()
+        public void Test_IsNameValid_CanAcceptWriteSigns()
         {
             // Arrange 
             string testInput = "firstName $!%/";
+            bool expected = false;
+
+            // Act  
+            bool control = RegexValidation.IsNameValid(testInput);
+
+            // Assert 
+            Assert.AreEqual(expected, control);
+        }
+
+        [TestMethod]
+        public void Test_IsNameValid_CanAcceptNumbers()
+        {
+            // Arrange 
+            string testInput = "firstName 12345";
             bool expected = false;
 
             // Act  
@@ -141,7 +155,7 @@ namespace InputValidationTest
         }
 
         [TestMethod]
-        public void Test_IsPhoneValid_CanAcceptPhoneNumberWithDashSigns()
+        public void Test_IsPhoneValid_CanAcceptPhoneNumberWithHyphenSigns()
         {
             // Arrange
             string testInput = "+36-30-986-6768";
@@ -205,6 +219,137 @@ namespace InputValidationTest
 
             // Act
             bool control = RegexValidation.IsPhoneValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+        #endregion
+
+
+        #region IsEmailValid method tests
+
+        [TestMethod]
+        public void Test_IsEmailValid_CanHandleNullInput()
+        {
+            // Arrange
+            string testInput = null;
+            bool expected = false;
+
+            // Act
+            bool control = RegexValidation.IsEmailValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+        [TestMethod]
+        public void Test_IsEmailValid_CanAcceptUnvalidSignsInLocalPart()
+        {
+            // Arrange
+            string testInput = @"gabee[1987]@gmail.com";
+            bool expected = false;
+
+            // Act
+            bool control = RegexValidation.IsEmailValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+        [TestMethod]
+        public void Test_IsEmailValid_CanAccepValidSigns()
+        {
+            // Arrange
+            string testInput = @"gabee+1987@gmail.com";
+            bool expected = true;
+
+            // Act
+            bool control = RegexValidation.IsEmailValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+        [TestMethod]
+        public void Test_IsEmailValid_CanAcceptDotSeparatedLocalPart()
+        {
+            // Arrange
+            string testInput = @"gabee.1987@gmail.com";
+            bool expected = true;
+
+            // Act
+            bool control = RegexValidation.IsEmailValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+        [TestMethod]
+        public void Test_IsEmailValid_CanAcceptAddressWithoutAtSign()
+        {
+            // Arrange
+            string testInput = @"gabee.1987gmail.com";
+            bool expected = false;
+
+            // Act
+            bool control = RegexValidation.IsEmailValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+        [TestMethod]
+        public void Test_IsEmailValid_CanAcceptUnvalidSignInDomainPart()
+        {
+            // Arrange
+            string testInput = @"gabee1987@gmail'unvalid'.com";
+            bool expected = false;
+
+            // Act
+            bool control = RegexValidation.IsEmailValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+        [TestMethod]
+        public void Test_IsEmailValid_CanAcceptAddressWithoutDomainPart()
+        {
+            // Arrange
+            string testInput = @"gabee1987@gmail";
+            bool expected = false;
+
+            // Act
+            bool control = RegexValidation.IsEmailValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+        [TestMethod]
+        public void Test_IsEmailValid_CanAcceptAddressWithUnvalidDomainPart()
+        {
+            // Arrange
+            string testInput = @"gabee1987@gmail.c";
+            bool expected = false;
+
+            // Act
+            bool control = RegexValidation.IsEmailValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+        [TestMethod]
+        public void Test_IsEmailValid_CanAcceptAddressWithHyphenSeparatedDomainPart()
+        {
+            // Arrange
+            string testInput = @"gabee1987@gmail.cc-com";
+            bool expected = true;
+
+            // Act
+            bool control = RegexValidation.IsEmailValid(testInput);
 
             // Assert
             Assert.AreEqual(expected, control);
