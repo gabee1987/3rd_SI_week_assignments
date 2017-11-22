@@ -11,24 +11,32 @@ namespace InputValidation
             string lastNameRegex = @"[A-Za-zÀ-ú]+$";
             string pattern = firstNameRegex + whiteSpaceRegex + lastNameRegex;
 
-            if (input != null)
+            if (input == null)
             {
-                return Regex.IsMatch(input, pattern);
+                return false;
             }
             else
             {
-                return false;
+                return Regex.IsMatch(input, pattern);
             }
         }
 
         public static bool IsPhoneValid(string input)
         {
             string countryCode = @"^(\+?36)?";
-            string separator = @"[ -]?";
+            string separator = @"[ /-]?";
             string areaCode = @"(\d{1,2}|(\(\d{1,2}\)))?";
-            string phoneNumber = @"([ -]?\d){6,7}$";
+            string phoneNumber = @"([ /-]?\d){6,7}$";
             string pattern = countryCode + separator + areaCode + phoneNumber;
-            return Regex.IsMatch(input, pattern);
+
+            if (input == null)
+            {
+                return false;
+            }
+            else
+            {
+                return Regex.IsMatch(input, pattern);
+            }
         }
 
         public static bool IsEmailValid(string input)
@@ -39,7 +47,15 @@ namespace InputValidation
             char dot = '.';
             string domainPart2 = @"+[a-zA-Z]{2,9})$";
             string pattern = localPart + at + domainPart1 + dot + domainPart2;
-            return Regex.IsMatch(input, pattern);
+
+            if (input == null)
+            {
+                return false;
+            }
+            else
+            {
+                return Regex.IsMatch(input, pattern);
+            }
         }
     }
 }
