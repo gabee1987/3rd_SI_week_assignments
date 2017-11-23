@@ -125,16 +125,35 @@ namespace InputValidation
             DialogResult openDialog = OpenFileDialog.ShowDialog();
             if (openDialog.ToString() == "OK")
             {
-                string openedFileInfo = OpenFileDialog.FileName;
-                PersonSerializable personToShow = PersonSerializable.DeserializePerson(openedFileInfo);
+                string openedFileInfoString = OpenFileDialog.FileName;
+                FileInfo openedFileInfo = new FileInfo(OpenFileDialog.FileName);
+                if (openedFileInfo.Extension == ".ser")
+                {
+                    PersonSerializable personToShow = PersonSerializable.DeserializePerson(openedFileInfoString);
 
-                PreviewPersonDataListView.Items.Clear();
-                PreviewPersonDataListView.Items.Add("Name: " + personToShow.Name.ToString());
-                PreviewPersonDataListView.Items.Add("BirthDate: " + personToShow.BirthDate.ToString("dd/MM/yyyy"));
-                PreviewPersonDataListView.Items.Add("Age: " + personToShow.GetAge().ToString());
-                PreviewPersonDataListView.Items.Add("Gender: " + personToShow.Gender.ToString());
-                PreviewPersonDataListView.Items.Add("Phone number: " + personToShow.PhoneNumber.ToString());
-                PreviewPersonDataListView.Items.Add("Email address: " + personToShow.EmailAddress.ToString());
+                    PreviewPersonDataListView.Items.Clear();
+                    PreviewPersonDataListView.Items.Add("Name: " + personToShow.Name.ToString());
+                    PreviewPersonDataListView.Items.Add("BirthDate: " + personToShow.BirthDate.ToString("dd/MM/yyyy"));
+                    PreviewPersonDataListView.Items.Add("Age: " + personToShow.GetAge().ToString());
+                    PreviewPersonDataListView.Items.Add("Gender: " + personToShow.Gender.ToString());
+                    PreviewPersonDataListView.Items.Add("Phone number: " + personToShow.PhoneNumber.ToString());
+                    PreviewPersonDataListView.Items.Add("Email address: " + personToShow.EmailAddress.ToString());
+                }
+                else if (openedFileInfo.Extension == ".txt")
+                {
+                    string item;
+                    StreamReader streamReader = new StreamReader(openedFileInfoString);
+                    PreviewPersonDataListView.Items.Clear();
+                    while ((item = streamReader.ReadLine()) != null)
+                    {
+                        PreviewPersonDataListView.Items.Add(item);
+                    }
+                    streamReader.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Could not open file.", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
         }
 
