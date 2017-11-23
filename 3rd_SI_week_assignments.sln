@@ -12,6 +12,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InputValidationTest", "Inpu
 		{01BC4910-31C8-4FBE-A82B-CD025F45AFD5} = {01BC4910-31C8-4FBE-A82B-CD025F45AFD5}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializePeople", "SerializePeople\SerializePeople.csproj", "{7D1C9394-C097-4F76-A162-67ADFABD51A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializePeopleTest", "SerializePeopleTest\SerializePeopleTest.csproj", "{87C35B4C-EFC4-4CC0-87B9-FA6D1A23448C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7D1C9394-C097-4F76-A162-67ADFABD51A8} = {7D1C9394-C097-4F76-A162-67ADFABD51A8}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +51,22 @@ Global
 		{A8239EFD-2BAD-4470-B11C-2BC87D0392E0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A8239EFD-2BAD-4470-B11C-2BC87D0392E0}.Release|x86.ActiveCfg = Release|Any CPU
 		{A8239EFD-2BAD-4470-B11C-2BC87D0392E0}.Release|x86.Build.0 = Release|Any CPU
+		{7D1C9394-C097-4F76-A162-67ADFABD51A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D1C9394-C097-4F76-A162-67ADFABD51A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D1C9394-C097-4F76-A162-67ADFABD51A8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7D1C9394-C097-4F76-A162-67ADFABD51A8}.Debug|x86.Build.0 = Debug|Any CPU
+		{7D1C9394-C097-4F76-A162-67ADFABD51A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D1C9394-C097-4F76-A162-67ADFABD51A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D1C9394-C097-4F76-A162-67ADFABD51A8}.Release|x86.ActiveCfg = Release|Any CPU
+		{7D1C9394-C097-4F76-A162-67ADFABD51A8}.Release|x86.Build.0 = Release|Any CPU
+		{87C35B4C-EFC4-4CC0-87B9-FA6D1A23448C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87C35B4C-EFC4-4CC0-87B9-FA6D1A23448C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87C35B4C-EFC4-4CC0-87B9-FA6D1A23448C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{87C35B4C-EFC4-4CC0-87B9-FA6D1A23448C}.Debug|x86.Build.0 = Debug|Any CPU
+		{87C35B4C-EFC4-4CC0-87B9-FA6D1A23448C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87C35B4C-EFC4-4CC0-87B9-FA6D1A23448C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87C35B4C-EFC4-4CC0-87B9-FA6D1A23448C}.Release|x86.ActiveCfg = Release|Any CPU
+		{87C35B4C-EFC4-4CC0-87B9-FA6D1A23448C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
