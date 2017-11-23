@@ -56,6 +56,10 @@
             this.emailErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.doneButtonErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.SaveObjectDialog = new System.Windows.Forms.SaveFileDialog();
+            this.SaveTextDialog = new System.Windows.Forms.SaveFileDialog();
+            this.OpenFileButton = new System.Windows.Forms.Button();
+            this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.TabControl.SuspendLayout();
             this.SimpleTextBoxTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nameErrorProvider)).BeginInit();
@@ -76,7 +80,7 @@
             // PhoneLabel
             // 
             this.PhoneLabel.AutoSize = true;
-            this.PhoneLabel.Location = new System.Drawing.Point(23, 149);
+            this.PhoneLabel.Location = new System.Drawing.Point(23, 120);
             this.PhoneLabel.Name = "PhoneLabel";
             this.PhoneLabel.Size = new System.Drawing.Size(38, 13);
             this.PhoneLabel.TabIndex = 2;
@@ -85,7 +89,7 @@
             // EmailLabel
             // 
             this.EmailLabel.AutoSize = true;
-            this.EmailLabel.Location = new System.Drawing.Point(30, 197);
+            this.EmailLabel.Location = new System.Drawing.Point(30, 168);
             this.EmailLabel.Name = "EmailLabel";
             this.EmailLabel.Size = new System.Drawing.Size(32, 13);
             this.EmailLabel.TabIndex = 4;
@@ -93,12 +97,13 @@
             // 
             // SaveTextButton
             // 
-            this.SaveTextButton.Location = new System.Drawing.Point(472, 270);
+            this.SaveTextButton.Location = new System.Drawing.Point(449, 270);
             this.SaveTextButton.Name = "SaveTextButton";
             this.SaveTextButton.Size = new System.Drawing.Size(99, 23);
             this.SaveTextButton.TabIndex = 7;
             this.SaveTextButton.Text = "Save Text To File";
             this.SaveTextButton.UseVisualStyleBackColor = true;
+            this.SaveTextButton.Click += new System.EventHandler(this.SaveTextButton_Click);
             // 
             // SaveButton
             // 
@@ -121,6 +126,7 @@
             // 
             // SimpleTextBoxTabPage
             // 
+            this.SimpleTextBoxTabPage.Controls.Add(this.OpenFileButton);
             this.SimpleTextBoxTabPage.Controls.Add(this.PreviewPersonDataLabel);
             this.SimpleTextBoxTabPage.Controls.Add(this.PreviewPersonDataListView);
             this.SimpleTextBoxTabPage.Controls.Add(this.DoneButton);
@@ -167,7 +173,7 @@
             // 
             // DoneButton
             // 
-            this.DoneButton.Location = new System.Drawing.Point(334, 221);
+            this.DoneButton.Location = new System.Drawing.Point(334, 192);
             this.DoneButton.Name = "DoneButton";
             this.DoneButton.Size = new System.Drawing.Size(93, 23);
             this.DoneButton.TabIndex = 23;
@@ -190,7 +196,7 @@
             // 
             this.BirthDateMaskedTextBox.Location = new System.Drawing.Point(67, 67);
             this.BirthDateMaskedTextBox.Name = "BirthDateMaskedTextBox";
-            this.BirthDateMaskedTextBox.Size = new System.Drawing.Size(100, 20);
+            this.BirthDateMaskedTextBox.Size = new System.Drawing.Size(66, 20);
             this.BirthDateMaskedTextBox.TabIndex = 1;
             this.BirthDateMaskedTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.BirthDateMaskedTextBox_KeyDown);
             this.BirthDateMaskedTextBox.Leave += new System.EventHandler(this.BirthDateMaskedTextBox_Leave);
@@ -206,17 +212,18 @@
             // 
             // SaveObjectButton
             // 
-            this.SaveObjectButton.Location = new System.Drawing.Point(357, 270);
+            this.SaveObjectButton.Location = new System.Drawing.Point(334, 270);
             this.SaveObjectButton.Name = "SaveObjectButton";
             this.SaveObjectButton.Size = new System.Drawing.Size(109, 23);
             this.SaveObjectButton.TabIndex = 6;
             this.SaveObjectButton.Text = "Save Object To File";
             this.SaveObjectButton.UseVisualStyleBackColor = true;
+            this.SaveObjectButton.Click += new System.EventHandler(this.SaveObjectButton_Click);
             // 
             // GenderLabel
             // 
             this.GenderLabel.AutoSize = true;
-            this.GenderLabel.Location = new System.Drawing.Point(19, 110);
+            this.GenderLabel.Location = new System.Drawing.Point(154, 70);
             this.GenderLabel.Name = "GenderLabel";
             this.GenderLabel.Size = new System.Drawing.Size(42, 13);
             this.GenderLabel.TabIndex = 16;
@@ -225,7 +232,7 @@
             // FemaleRadioButton
             // 
             this.FemaleRadioButton.AutoSize = true;
-            this.FemaleRadioButton.Location = new System.Drawing.Point(121, 108);
+            this.FemaleRadioButton.Location = new System.Drawing.Point(256, 68);
             this.FemaleRadioButton.Name = "FemaleRadioButton";
             this.FemaleRadioButton.Size = new System.Drawing.Size(59, 17);
             this.FemaleRadioButton.TabIndex = 3;
@@ -236,7 +243,7 @@
             // MaleRadioButton
             // 
             this.MaleRadioButton.AutoSize = true;
-            this.MaleRadioButton.Location = new System.Drawing.Point(67, 108);
+            this.MaleRadioButton.Location = new System.Drawing.Point(202, 68);
             this.MaleRadioButton.Name = "MaleRadioButton";
             this.MaleRadioButton.Size = new System.Drawing.Size(48, 17);
             this.MaleRadioButton.TabIndex = 2;
@@ -263,7 +270,7 @@
             // 
             // PhoneTextBox
             // 
-            this.PhoneTextBox.Location = new System.Drawing.Point(67, 146);
+            this.PhoneTextBox.Location = new System.Drawing.Point(67, 117);
             this.PhoneTextBox.Name = "PhoneTextBox";
             this.PhoneTextBox.Size = new System.Drawing.Size(360, 20);
             this.PhoneTextBox.TabIndex = 4;
@@ -272,7 +279,7 @@
             // 
             // EmailTextBox
             // 
-            this.EmailTextBox.Location = new System.Drawing.Point(67, 194);
+            this.EmailTextBox.Location = new System.Drawing.Point(67, 165);
             this.EmailTextBox.Name = "EmailTextBox";
             this.EmailTextBox.Size = new System.Drawing.Size(360, 20);
             this.EmailTextBox.TabIndex = 5;
@@ -293,6 +300,26 @@
             // doneButtonErrorProvider
             // 
             this.doneButtonErrorProvider.ContainerControl = this;
+            // 
+            // SaveObjectDialog
+            // 
+            this.SaveObjectDialog.DefaultExt = "log";
+            this.SaveObjectDialog.Filter = "SerializedObject|*.ser";
+            // 
+            // SaveTextDialog
+            // 
+            this.SaveTextDialog.DefaultExt = "log";
+            this.SaveTextDialog.Filter = "Text Files|*.txt";
+            // 
+            // OpenFileButton
+            // 
+            this.OpenFileButton.Location = new System.Drawing.Point(577, 220);
+            this.OpenFileButton.Name = "OpenFileButton";
+            this.OpenFileButton.Size = new System.Drawing.Size(93, 23);
+            this.OpenFileButton.TabIndex = 26;
+            this.OpenFileButton.Text = "Open File";
+            this.OpenFileButton.UseVisualStyleBackColor = true;
+            this.OpenFileButton.Click += new System.EventHandler(this.OpenFileButton_Click);
             // 
             // InputValidationForm
             // 
@@ -344,6 +371,10 @@
         private System.Windows.Forms.Label PreviewPersonDataLabel;
         private System.Windows.Forms.ListView PreviewPersonDataListView;
         private System.Windows.Forms.ErrorProvider doneButtonErrorProvider;
+        private System.Windows.Forms.SaveFileDialog SaveObjectDialog;
+        private System.Windows.Forms.SaveFileDialog SaveTextDialog;
+        private System.Windows.Forms.Button OpenFileButton;
+        private System.Windows.Forms.OpenFileDialog OpenFileDialog;
     }
 }
 

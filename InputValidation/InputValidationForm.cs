@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using SerializePeople;
 using static SerializePeople.PersonSerializable;
 using System.Globalization;
+using System.IO;
 
 namespace InputValidation
 {
@@ -12,16 +13,18 @@ namespace InputValidation
         public InputValidationForm()
         {
             InitializeComponent();
-            SetNameErrorProviderToTextBox(NameTextBox);
-            SetPhoneErrorProviderToTextBox(PhoneTextBox);
-            SetEmailErrorProviderToTextBox(EmailTextBox);
-            SetDoneButtonErrorProviderToButton(DoneButton);
         }
 
         #region Events
 
         private void InputValidationForm_Load(object sender, EventArgs e)
         {
+            // Set ErrorProviders
+            SetNameErrorProviderToTextBox(NameTextBox);
+            SetPhoneErrorProviderToTextBox(PhoneTextBox);
+            SetEmailErrorProviderToTextBox(EmailTextBox);
+            SetDoneButtonErrorProviderToButton(DoneButton);
+
             // Set BirthDate TextBox mask and rejectEventHandler
             BirthDateMaskedTextBox.Mask = "00/00/0000";
             BirthDateMaskedTextBox.MaskInputRejected += new MaskInputRejectedEventHandler(BirthDateMaskedTextBox_MaskInputRejected);
@@ -75,31 +78,7 @@ namespace InputValidation
         {
             if (CheckInputsHasCorrectData())
             {
-                string name = NameTextBox.Text;
-                DateTime birthDate;
-                if (!DateTime.TryParseExact(BirthDateMaskedTextBox.Text, "dd/MM/yyyy", null, DateTimeStyles.None, out birthDate))
-                {
-                    birthDate = new DateTime(0000, 00, 00);
-                    Console.WriteLine("There was an error during date parse.");
-                }
-                Genders gender = Genders.Unknown;
-                if (MaleRadioButton.Checked)
-                {
-                    gender = Genders.Male;
-                }
-                else if (FemaleRadioButton.Checked)
-                {
-                    gender = Genders.Female;
-                }
-                string phoneNumber = PhoneTextBox.Text;
-                string email = EmailTextBox.Text;
-
-                personToSave.Name = name;
-                personToSave.BirthDate = birthDate;
-                personToSave.Gender = gender;
-                personToSave.PhoneNumber = phoneNumber;
-                personToSave.EmailAddress = email;
-                personToSave.SetAge();
+                SetPersonInfo();
 
                 PreviewPersonDataListView.Items.Clear();
                 PreviewPersonDataListView.Items.Add("Name: " + personToSave.Name.ToString());
@@ -114,6 +93,49 @@ namespace InputValidation
                 doneButtonErrorProvider.SetError(DoneButton, "Not all data is correct.");
             }
 
+        }
+
+        private void SaveObjectButton_Click(object sender, EventArgs e)
+        {
+            DialogResult objectDialog = SaveObjectDialog.ShowDialog();
+            if (objectDialog.ToString() == "OK")
+            {
+                FileInfo fileInfo = new FileInfo(SaveObjectDialog.FileName);
+                PersonSerializable.SerializePerson(personToSave, fileInfo.ToString());
+            }
+        }
+
+        private void SaveTextButton_Click(object sender, EventArgs e)
+        {
+            DialogResult textDialog = SaveTextDialog.ShowDialog();
+            if (textDialog.ToString() == "OK")
+            {
+                FileInfo fileInfo = new FileInfo(SaveObjectDialog.FileName);
+                StreamWriter streamWriter = fileInfo.CreateText();
+                foreach (string sItem in PreviewPersonDataListView.Items)
+                {
+                    streamWriter.WriteLine(sItem);
+                }
+                streamWriter.Close();
+            }
+        }
+
+        private void OpenFileButton_Click(object sender, EventArgs e)
+        {
+            DialogResult openDialog = OpenFileDialog.ShowDialog();
+            if (openDialog.ToString() == "OK")
+            {
+                string openedFileInfo = OpenFileDialog.FileName;
+                PersonSerializable personToShow = PersonSerializable.DeserializePerson(openedFileInfo);
+
+                PreviewPersonDataListView.Items.Clear();
+                PreviewPersonDataListView.Items.Add("Name: " + personToShow.Name.ToString());
+                PreviewPersonDataListView.Items.Add("BirthDate: " + personToShow.BirthDate.ToString("dd/MM/yyyy"));
+                PreviewPersonDataListView.Items.Add("Age: " + personToShow.GetAge().ToString());
+                PreviewPersonDataListView.Items.Add("Gender: " + personToShow.Gender.ToString());
+                PreviewPersonDataListView.Items.Add("Phone number: " + personToShow.PhoneNumber.ToString());
+                PreviewPersonDataListView.Items.Add("Email address: " + personToShow.EmailAddress.ToString());
+            }
         }
 
         #endregion
@@ -206,6 +228,36 @@ namespace InputValidation
                 return false;
             }
         }
+
+        private void SetPersonInfo()
+        {
+            string name = NameTextBox.Text;
+            DateTime birthDate;
+            if (!DateTime.TryParseExact(BirthDateMaskedTextBox.Text, "dd/MM/yyyy", null, DateTimeStyles.None, out birthDate))
+            {
+                birthDate = new DateTime(0000, 00, 00);
+                Console.WriteLine("There was an error during date parse.");
+            }
+            Genders gender = Genders.Unknown;
+            if (MaleRadioButton.Checked)
+            {
+                gender = Genders.Male;
+            }
+            else if (FemaleRadioButton.Checked)
+            {
+                gender = Genders.Female;
+            }
+            string phoneNumber = PhoneTextBox.Text;
+            string email = EmailTextBox.Text;
+
+            personToSave.Name = name;
+            personToSave.BirthDate = birthDate;
+            personToSave.Gender = gender;
+            personToSave.PhoneNumber = phoneNumber;
+            personToSave.EmailAddress = email;
+            personToSave.SetAge();
+        }
+
         #endregion
 
     }
