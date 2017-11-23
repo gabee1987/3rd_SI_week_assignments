@@ -38,7 +38,6 @@
             this.TabControl = new System.Windows.Forms.TabControl();
             this.SimpleTextBoxTabPage = new System.Windows.Forms.TabPage();
             this.PreviewPersonDataLabel = new System.Windows.Forms.Label();
-            this.PreviewPersonDataListView = new System.Windows.Forms.ListView();
             this.DoneButton = new System.Windows.Forms.Button();
             this.DateTemplateLabel = new System.Windows.Forms.Label();
             this.BirthDateMaskedTextBox = new System.Windows.Forms.MaskedTextBox();
@@ -60,12 +59,15 @@
             this.SaveTextDialog = new System.Windows.Forms.SaveFileDialog();
             this.OpenFileButton = new System.Windows.Forms.Button();
             this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.PreviewPersonDataListView = new System.Windows.Forms.ListBox();
             this.TabControl.SuspendLayout();
             this.SimpleTextBoxTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nameErrorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.phoneErrorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emailErrorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.doneButtonErrorProvider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // NameLabel
@@ -126,9 +128,10 @@
             // 
             // SimpleTextBoxTabPage
             // 
+            this.SimpleTextBoxTabPage.Controls.Add(this.PreviewPersonDataListView);
+            this.SimpleTextBoxTabPage.Controls.Add(this.pictureBox1);
             this.SimpleTextBoxTabPage.Controls.Add(this.OpenFileButton);
             this.SimpleTextBoxTabPage.Controls.Add(this.PreviewPersonDataLabel);
-            this.SimpleTextBoxTabPage.Controls.Add(this.PreviewPersonDataListView);
             this.SimpleTextBoxTabPage.Controls.Add(this.DoneButton);
             this.SimpleTextBoxTabPage.Controls.Add(this.DateTemplateLabel);
             this.SimpleTextBoxTabPage.Controls.Add(this.BirthDateMaskedTextBox);
@@ -156,24 +159,15 @@
             // PreviewPersonDataLabel
             // 
             this.PreviewPersonDataLabel.AutoSize = true;
-            this.PreviewPersonDataLabel.Location = new System.Drawing.Point(447, 3);
+            this.PreviewPersonDataLabel.Location = new System.Drawing.Point(443, 3);
             this.PreviewPersonDataLabel.Name = "PreviewPersonDataLabel";
             this.PreviewPersonDataLabel.Size = new System.Drawing.Size(107, 13);
             this.PreviewPersonDataLabel.TabIndex = 25;
             this.PreviewPersonDataLabel.Text = "Preview Person Data";
             // 
-            // PreviewPersonDataListView
-            // 
-            this.PreviewPersonDataListView.Location = new System.Drawing.Point(450, 20);
-            this.PreviewPersonDataListView.Name = "PreviewPersonDataListView";
-            this.PreviewPersonDataListView.Size = new System.Drawing.Size(220, 194);
-            this.PreviewPersonDataListView.TabIndex = 24;
-            this.PreviewPersonDataListView.UseCompatibleStateImageBehavior = false;
-            this.PreviewPersonDataListView.View = System.Windows.Forms.View.List;
-            // 
             // DoneButton
             // 
-            this.DoneButton.Location = new System.Drawing.Point(334, 192);
+            this.DoneButton.Location = new System.Drawing.Point(334, 196);
             this.DoneButton.Name = "DoneButton";
             this.DoneButton.Size = new System.Drawing.Size(93, 23);
             this.DoneButton.TabIndex = 23;
@@ -308,18 +302,38 @@
             // 
             // SaveTextDialog
             // 
-            this.SaveTextDialog.DefaultExt = "log";
+            this.SaveTextDialog.DefaultExt = "txt";
             this.SaveTextDialog.Filter = "Text Files|*.txt";
             // 
             // OpenFileButton
             // 
-            this.OpenFileButton.Location = new System.Drawing.Point(577, 220);
+            this.OpenFileButton.Location = new System.Drawing.Point(577, 225);
             this.OpenFileButton.Name = "OpenFileButton";
             this.OpenFileButton.Size = new System.Drawing.Size(93, 23);
             this.OpenFileButton.TabIndex = 26;
             this.OpenFileButton.Text = "Open File";
             this.OpenFileButton.UseVisualStyleBackColor = true;
             this.OpenFileButton.Click += new System.EventHandler(this.OpenFileButton_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox1.Image = global::InputValidation.Properties.Resources.refresh_icon_png;
+            this.pictureBox1.Location = new System.Drawing.Point(653, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(17, 17);
+            this.pictureBox1.TabIndex = 27;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // PreviewPersonDataListView
+            // 
+            this.PreviewPersonDataListView.FormattingEnabled = true;
+            this.PreviewPersonDataListView.HorizontalScrollbar = true;
+            this.PreviewPersonDataListView.Location = new System.Drawing.Point(442, 20);
+            this.PreviewPersonDataListView.Name = "PreviewPersonDataListView";
+            this.PreviewPersonDataListView.Size = new System.Drawing.Size(228, 199);
+            this.PreviewPersonDataListView.TabIndex = 28;
             // 
             // InputValidationForm
             // 
@@ -339,6 +353,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.phoneErrorProvider)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emailErrorProvider)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.doneButtonErrorProvider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -369,12 +384,13 @@
         private System.Windows.Forms.Label DateTemplateLabel;
         private System.Windows.Forms.Button DoneButton;
         private System.Windows.Forms.Label PreviewPersonDataLabel;
-        private System.Windows.Forms.ListView PreviewPersonDataListView;
         private System.Windows.Forms.ErrorProvider doneButtonErrorProvider;
         private System.Windows.Forms.SaveFileDialog SaveObjectDialog;
         private System.Windows.Forms.SaveFileDialog SaveTextDialog;
         private System.Windows.Forms.Button OpenFileButton;
         private System.Windows.Forms.OpenFileDialog OpenFileDialog;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ListBox PreviewPersonDataListView;
     }
 }
 

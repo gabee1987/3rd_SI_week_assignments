@@ -110,7 +110,7 @@ namespace InputValidation
             DialogResult textDialog = SaveTextDialog.ShowDialog();
             if (textDialog.ToString() == "OK")
             {
-                FileInfo fileInfo = new FileInfo(SaveObjectDialog.FileName);
+                FileInfo fileInfo = new FileInfo(SaveTextDialog.FileName);
                 StreamWriter streamWriter = fileInfo.CreateText();
                 foreach (string sItem in PreviewPersonDataListView.Items)
                 {
@@ -136,6 +136,11 @@ namespace InputValidation
                 PreviewPersonDataListView.Items.Add("Phone number: " + personToShow.PhoneNumber.ToString());
                 PreviewPersonDataListView.Items.Add("Email address: " + personToShow.EmailAddress.ToString());
             }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            PreviewPersonDataListView.Items.Clear();
         }
 
         #endregion
