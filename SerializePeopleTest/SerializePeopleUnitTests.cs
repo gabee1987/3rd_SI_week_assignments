@@ -2,12 +2,15 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SerializePeople;
 using static SerializePeople.PersonSerializable;
+using System.IO;
 
 namespace SerializePeopleTest
 {
     [TestClass]
     public class SerializePeopleUnitTests
     {
+        #region Constructor and ToString tests
+
         [TestMethod]
         public void Test_Constructor_Is_Sets_Correct_Properties()
         {
@@ -41,5 +44,47 @@ namespace SerializePeopleTest
             // Assert
             Assert.AreEqual(testString, controlString);
         }
+
+        #endregion
+
+        #region Serialization tests
+
+        [TestMethod]
+        public void Test_Serialize_Created_The_File()
+        {
+            // Arrange
+            if (File.Exists("serializedPerson.bin"))
+            {
+                File.Delete("serializedPerson.bin");
+            }
+            PersonSerializable personToSerialize = new PersonSerializable("MrSerialized", new DateTime(1977, 05, 25), Genders.Male);
+
+            // Act
+            personToSerialize.Serialize(personToSerialize, "serializedPerson.bin");
+            bool controlBool = File.Exists("serializedPerson.bin");
+
+            // Assert
+            Assert.IsTrue(controlBool);
+        }
+
+        [TestMethod]
+        public void Test_Deserialize_Gives_Correct_Object()
+        {
+            // Arrange
+            PersonSerializable controlPersonToDeserialize = new PersonSerializable("MrSerialized", new DateTime(1977, 05, 25), Genders.Male);
+            if (File.Exists("serializedPerson.bin"))
+            {
+                File.Delete("serializedPerson.bin");
+            }
+            controlPersonToDeserialize.Serialize(controlPersonToDeserialize, "serializedPerson.bin");
+
+            // Act
+            PersonSerializable testPersonToDeserialize = Deserialize("serializedPerson.bin");
+            bool testBool = controlPersonToDeserialize.Equals(testPersonToDeserialize);
+
+            // Assert
+            Assert.IsTrue(testBool);
+        }
+        #endregion
     }
 }

@@ -21,10 +21,24 @@ namespace SerializePeople
             person4.Gender = Genders.Female;
             person4.Age = person4.SetAge();
 
-            Console.WriteLine(person1);
-            Console.WriteLine(person2);
-            Console.WriteLine(person3);
-            Console.WriteLine(person4);
+            Console.WriteLine(person1 + "\n");
+            Console.WriteLine(person2 + "\n");
+            Console.WriteLine(person3 + "\n");
+            Console.WriteLine(person4 + "\n");
+            Console.WriteLine();
+            Console.WriteLine();
+
+
+            // Serialization
+            PersonSerializable personToSerialize = new PersonSerializable("MrSerialized", new DateTime(1977, 05, 25), Genders.Male);
+            personToSerialize.Serialize(personToSerialize, "serializedPerson.bin");
+            Console.WriteLine("Person is serialized. \n");
+
+            // Deserialization
+            PersonSerializable personToDeserialize = Deserialize("serializedPerson.bin");
+            Console.WriteLine("Person is deserialized. \n");
+            Console.WriteLine(personToDeserialize);
+
 
             Console.ReadLine();
         }
