@@ -99,7 +99,6 @@
             this.SaveTextButton.TabIndex = 7;
             this.SaveTextButton.Text = "Save Text To File";
             this.SaveTextButton.UseVisualStyleBackColor = true;
-            this.SaveTextButton.Visible = false;
             // 
             // SaveButton
             // 
@@ -164,6 +163,7 @@
             this.PreviewPersonDataListView.Size = new System.Drawing.Size(220, 194);
             this.PreviewPersonDataListView.TabIndex = 24;
             this.PreviewPersonDataListView.UseCompatibleStateImageBehavior = false;
+            this.PreviewPersonDataListView.View = System.Windows.Forms.View.List;
             // 
             // DoneButton
             // 
@@ -173,7 +173,6 @@
             this.DoneButton.TabIndex = 23;
             this.DoneButton.Text = "Done";
             this.DoneButton.UseVisualStyleBackColor = true;
-            this.DoneButton.Visible = false;
             this.DoneButton.Click += new System.EventHandler(this.DoneButton_Click);
             // 
             // DateTemplateLabel
@@ -204,7 +203,6 @@
             this.SendEmailButton.TabIndex = 8;
             this.SendEmailButton.Text = "Send Email";
             this.SendEmailButton.UseVisualStyleBackColor = true;
-            this.SendEmailButton.Visible = false;
             // 
             // SaveObjectButton
             // 
@@ -214,7 +212,6 @@
             this.SaveObjectButton.TabIndex = 6;
             this.SaveObjectButton.Text = "Save Object To File";
             this.SaveObjectButton.UseVisualStyleBackColor = true;
-            this.SaveObjectButton.Visible = false;
             // 
             // GenderLabel
             // 

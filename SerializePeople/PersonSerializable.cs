@@ -15,7 +15,7 @@ namespace SerializePeople
     {
         #region Fields and Properties
 
-        public enum Genders { Male, Female };
+        public enum Genders { Male, Female, Unknown };
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }
         public Genders Gender { get; set; }

@@ -2,11 +2,13 @@
 using System.Windows.Forms;
 using SerializePeople;
 using static SerializePeople.PersonSerializable;
+using System.Globalization;
 
 namespace InputValidation
 {
     public partial class InputValidationForm : Form
     {
+        PersonSerializable personToSave = new PersonSerializable();
         public InputValidationForm()
         {
             InitializeComponent();
@@ -74,18 +76,38 @@ namespace InputValidation
             if (CheckInputsHasCorrectData())
             {
                 string name = NameTextBox.Text;
-                string birthDate = BirthDateMaskedTextBox.Text;
+                DateTime birthDate;
+                if (!DateTime.TryParseExact(BirthDateMaskedTextBox.Text, "dd/MM/yyyy", null, DateTimeStyles.None, out birthDate))
+                {
+                    birthDate = new DateTime(0000, 00, 00);
+                    Console.WriteLine("There was an error during date parse.");
+                }
+                Genders gender = Genders.Unknown;
                 if (MaleRadioButton.Checked)
                 {
-                    Genders gender = Genders.Male;
+                    gender = Genders.Male;
                 }
                 else if (FemaleRadioButton.Checked)
                 {
-                    Genders gender = Genders.Female;
+                    gender = Genders.Female;
                 }
                 string phoneNumber = PhoneTextBox.Text;
                 string email = EmailTextBox.Text;
-                PersonSerializable personToSave = new PersonSerializable();
+
+                personToSave.Name = name;
+                personToSave.BirthDate = birthDate;
+                personToSave.Gender = gender;
+                personToSave.PhoneNumber = phoneNumber;
+                personToSave.EmailAddress = email;
+                personToSave.SetAge();
+
+                PreviewPersonDataListView.Items.Clear();
+                PreviewPersonDataListView.Items.Add("Name: " + personToSave.Name.ToString());
+                PreviewPersonDataListView.Items.Add("BirthDate: " + personToSave.BirthDate.ToString("dd/MM/yyyy"));
+                PreviewPersonDataListView.Items.Add("Age: " + personToSave.GetAge().ToString());
+                PreviewPersonDataListView.Items.Add("Gender: " + personToSave.Gender.ToString());
+                PreviewPersonDataListView.Items.Add("Phone number: " + personToSave.PhoneNumber.ToString());
+                PreviewPersonDataListView.Items.Add("Email address: " + personToSave.EmailAddress.ToString());
             }
             else
             {
