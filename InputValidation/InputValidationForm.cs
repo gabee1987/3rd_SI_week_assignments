@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using SerializePeople;
+using static SerializePeople.PersonSerializable;
 
 namespace InputValidation
 {
@@ -11,9 +13,19 @@ namespace InputValidation
             SetNameErrorProviderToTextBox(NameTextBox);
             SetPhoneErrorProviderToTextBox(PhoneTextBox);
             SetEmailErrorProviderToTextBox(EmailTextBox);
+            SetDoneButtonErrorProviderToButton(DoneButton);
         }
 
         #region Events
+
+        private void InputValidationForm_Load(object sender, EventArgs e)
+        {
+            // Set BirthDate TextBox mask and rejectEventHandler
+            BirthDateMaskedTextBox.Mask = "00/00/0000";
+            BirthDateMaskedTextBox.MaskInputRejected += new MaskInputRejectedEventHandler(BirthDateMaskedTextBox_MaskInputRejected);
+            BirthDateMaskedTextBox.KeyDown += new KeyEventHandler(BirthDateMaskedTextBox_KeyDown);
+
+        }
 
         private void NameTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -57,6 +69,31 @@ namespace InputValidation
             PhoneTextBox.Text = RegexValidation.ReformatPhoneNumber(originalPhoneTextBoxText);
         }
 
+        private void DoneButton_Click(object sender, EventArgs e)
+        {
+            if (CheckInputsHasCorrectData())
+            {
+                string name = NameTextBox.Text;
+                string birthDate = BirthDateMaskedTextBox.Text;
+                if (MaleRadioButton.Checked)
+                {
+                    Genders gender = Genders.Male;
+                }
+                else if (FemaleRadioButton.Checked)
+                {
+                    Genders gender = Genders.Female;
+                }
+                string phoneNumber = PhoneTextBox.Text;
+                string email = EmailTextBox.Text;
+                PersonSerializable personToSave = new PersonSerializable();
+            }
+            else
+            {
+                doneButtonErrorProvider.SetError(DoneButton, "Not all data is correct.");
+            }
+
+        }
+
         #endregion
 
         #region ErrorProviders
@@ -86,6 +123,67 @@ namespace InputValidation
             emailErrorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
         }
 
+        private void SetDoneButtonErrorProviderToButton(Button buttonToAdd)
+        {
+            doneButtonErrorProvider = new ErrorProvider();
+            doneButtonErrorProvider.SetIconAlignment(buttonToAdd, ErrorIconAlignment.MiddleRight);
+            doneButtonErrorProvider.SetIconPadding(buttonToAdd, 2);
+            doneButtonErrorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+        }
+
+        #endregion
+
+        #region Masked Textbox Events
+
+        private void BirthDateMaskedTextBox_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
+        {
+            if (BirthDateMaskedTextBox.MaskFull)
+            {
+                toolTip1.ToolTipTitle = "Input Rejected - Too Much Data";
+                toolTip1.Show("You cannot enter any more data into the date field. Delete some characters in order to insert more data.", BirthDateMaskedTextBox, 0, -20, 5000);
+            }
+            else if (e.Position == BirthDateMaskedTextBox.Mask.Length)
+            {
+                toolTip1.ToolTipTitle = "Input Rejected - End of Field";
+                toolTip1.Show("You cannot add extra characters to the end of this date field.", BirthDateMaskedTextBox, 0, -20, 5000);
+            }
+            else
+            {
+                toolTip1.ToolTipTitle = "Input Rejected";
+                toolTip1.Show("You can only add numeric characters (0-9) into this date field.", BirthDateMaskedTextBox, 0, -20, 5000);
+            }
+        }
+
+        private void BirthDateMaskedTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // The balloon tip is visible for five seconds; if the user types any data before it disappears, collapse it ourselves.
+            toolTip1.Hide(BirthDateMaskedTextBox);
+        }
+
+        private void BirthDateMaskedTextBox_Leave(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
+
+        #region Basic Methods
+
+        private bool CheckInputsHasCorrectData()
+        {
+            if (RegexValidation.IsNameValid(NameTextBox.Text) &&
+                RegexValidation.IsPhoneValid(PhoneTextBox.Text) &&
+                RegexValidation.IsEmailValid(EmailTextBox.Text) &&
+                RegexValidation.IsBirthDateValid(BirthDateMaskedTextBox.Text) &&
+                (MaleRadioButton.Checked || FemaleRadioButton.Checked))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         #endregion
 
     }

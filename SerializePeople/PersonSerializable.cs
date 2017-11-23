@@ -19,6 +19,8 @@ namespace SerializePeople
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }
         public Genders Gender { get; set; }
+        public string PhoneNumber {get; set;}
+        public string EmailAddress { get; set; }
         [NonSerialized]private int age;
         //public int Age
         //{
@@ -44,11 +46,13 @@ namespace SerializePeople
 
         public PersonSerializable() { }
 
-        public PersonSerializable(string name, DateTime birthDate, Genders gender)
+        public PersonSerializable(string name, DateTime birthDate, Genders gender, string phoneNumber, string emailAddress)
         {
             this.Name = name;
             this.BirthDate = birthDate;
             this.Gender = gender;
+            this.PhoneNumber = phoneNumber;
+            this.EmailAddress = emailAddress;
             SetAge();
             //this.Age = Age;
         }
@@ -81,7 +85,9 @@ namespace SerializePeople
             return  "Name: " + Name + "\n" +
                     "BirthDate: " + BirthDate.ToString("MM/dd/yyyy") + "\n" +
                     "Age: " + age + "\n" +
-                    "Gender: " + Gender;
+                    "Gender: " + Gender + "\n" +
+                    "Phone number: " + PhoneNumber + "\n" +
+                    "Email address: " + EmailAddress + "\n";
         }
 
         public override bool Equals(object obj)
@@ -95,7 +101,12 @@ namespace SerializePeople
             {
                 return false;
             }
-            return (Name == person.Name) && (BirthDate == person.BirthDate) && (age == person.age) && (Gender == person.Gender);
+            return (Name == person.Name) &&
+                (BirthDate == person.BirthDate) &&
+                (age == person.age) &&
+                (Gender == person.Gender) &&
+                (PhoneNumber == person.PhoneNumber) &&
+                (EmailAddress == person.EmailAddress);
         }
 
         public bool Equals(PersonSerializable person)
@@ -103,12 +114,22 @@ namespace SerializePeople
             if ((object)person == null)
                 return false;
 
-            return (Name == person.Name) && (BirthDate == person.BirthDate) && (age == person.age) && (Gender == person.Gender);
+            return (Name == person.Name) &&
+                (BirthDate == person.BirthDate) &&
+                (age == person.age) &&
+                (Gender == person.Gender) &&
+                (PhoneNumber == person.PhoneNumber) &&
+                (EmailAddress == person.EmailAddress);
         }
 
         public override int GetHashCode()
         {
-            return Name.GetHashCode() ^ BirthDate.GetHashCode() ^ age.GetHashCode() ^ Gender.GetHashCode();
+            return Name.GetHashCode() ^
+                BirthDate.GetHashCode() ^
+                age.GetHashCode() ^
+                Gender.GetHashCode() ^
+                PhoneNumber.GetHashCode() ^
+                EmailAddress.GetHashCode();
         }
 
         #endregion
@@ -138,6 +159,8 @@ namespace SerializePeople
             info.AddValue("Name", Name, typeof(string));
             info.AddValue("BirthDate", BirthDate, typeof(DateTime));
             info.AddValue("Gender", Gender, typeof(Genders));
+            info.AddValue("PhoneNumber", PhoneNumber, typeof(string));
+            info.AddValue("EmailAddress", EmailAddress, typeof(string));
         }
 
         // The special constructor is used to deserialize values.
@@ -147,6 +170,8 @@ namespace SerializePeople
             Name = (string)info.GetValue("Name", typeof(string));
             BirthDate = (DateTime)info.GetValue("BirthDate", typeof(DateTime));
             Gender = (Genders)info.GetValue("Gender", typeof(Genders));
+            PhoneNumber = (string)info.GetValue("PhoneNumber", typeof(string));
+            EmailAddress = (string)info.GetValue("EmailAddress", typeof(string));
         }
 
         public static void SerializePerson(PersonSerializable personToSerialize, string output)

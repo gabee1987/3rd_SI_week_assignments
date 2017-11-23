@@ -19,10 +19,12 @@ namespace SerializePeopleTest
             controlPerson.Name = "MrTestPerson";
             controlPerson.BirthDate = new DateTime(1987, 03, 31);
             controlPerson.Gender = Genders.Male;
+            controlPerson.PhoneNumber = "061222333";
+            controlPerson.EmailAddress = "testemail@test.com";
             controlPerson.SetAge();
 
             // Act  
-            PersonSerializable testPerson = new PersonSerializable("MrTestPerson", new DateTime(1987, 03, 31), Genders.Male);
+            PersonSerializable testPerson = new PersonSerializable("MrTestPerson", new DateTime(1987, 03, 31), Genders.Male, "061222333", "testemail@test.com");
 
             // Assert 
             Assert.AreEqual(testPerson, controlPerson);
@@ -32,11 +34,13 @@ namespace SerializePeopleTest
         public void Test_ToString_Returns_Correct_String()
         {
             // Arrange
-            PersonSerializable testPerson = new PersonSerializable("MrTestPerson", new DateTime(1987, 03, 31), Genders.Male);
+            PersonSerializable testPerson = new PersonSerializable("MrTestPerson", new DateTime(1987, 03, 31), Genders.Male, "061222333", "testemail@test.com");
             string controlString = "Name: " + "MrTestPerson" + "\n" +
                                     "BirthDate: " + "03/31/1987" + "\n" +
                                     "Age: " + "30" + "\n" +
-                                    "Gender: " + "Male";
+                                    "Gender: " + "Male" +
+                                    "Phone number: " + "061222333" + "\n" +
+                                    "Email address: " + "testemail@test.com" + "\n";
 
             // Act
             string testString = testPerson.ToString();
@@ -57,7 +61,7 @@ namespace SerializePeopleTest
             {
                 File.Delete("serializedPerson.bin");
             }
-            PersonSerializable personToSerialize = new PersonSerializable("MrSerialized", new DateTime(1977, 05, 25), Genders.Male);
+            PersonSerializable personToSerialize = new PersonSerializable("Mr Serializ Ed", new DateTime(1977, 05, 25), Genders.Male, "+3670999666", "serial@izable.com");
 
             // Act
             PersonSerializable.SerializePerson(personToSerialize, "serializedPerson.bin");
@@ -71,7 +75,7 @@ namespace SerializePeopleTest
         public void Test_Deserialize_Gives_Correct_Object()
         {
             // Arrange
-            PersonSerializable controlPersonToDeserialize = new PersonSerializable("MrSerialized", new DateTime(1977, 05, 25), Genders.Male);
+            PersonSerializable controlPersonToDeserialize = new PersonSerializable("Mr Serializ Ed", new DateTime(1977, 05, 25), Genders.Male, "+3670999666", "serial@izable.com");
             if (File.Exists("serializedPerson.bin"))
             {
                 File.Delete("serializedPerson.bin");

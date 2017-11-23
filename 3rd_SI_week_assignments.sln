@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InputValidation", "InputValidation\InputValidation.csproj", "{01BC4910-31C8-4FBE-A82B-CD025F45AFD5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7D1C9394-C097-4F76-A162-67ADFABD51A8} = {7D1C9394-C097-4F76-A162-67ADFABD51A8}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConvertTextFileToDifferentEncodingType", "ConvertTextFileToDifferentEncodingType\ConvertTextFileToDifferentEncodingType.csproj", "{199FD61D-7EAD-4590-81DB-A0150AC8C8F2}"
 EndProject

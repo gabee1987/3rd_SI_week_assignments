@@ -12,14 +12,16 @@ namespace SerializePeople
     {
         static void Main(string[] args)
         {
-            PersonSerializable person1 = new PersonSerializable("Gabee", new DateTime(1987, 03, 31), Genders.Male);
-            PersonSerializable person2 = new PersonSerializable("Edward", new DateTime(1974, 11, 15), Genders.Male);
-            PersonSerializable person3 = new PersonSerializable("Nancy", new DateTime(1990, 01, 02), Genders.Female);
+            PersonSerializable person1 = new PersonSerializable("Gabee", new DateTime(1987, 03, 31), Genders.Male, "+369866768", "gabee1987@gmail.com");
+            PersonSerializable person2 = new PersonSerializable("Edward", new DateTime(1974, 11, 15), Genders.Male, "061555666", "edwardScissorHand@burtonCo.com");
+            PersonSerializable person3 = new PersonSerializable("Nancy", new DateTime(1990, 01, 02), Genders.Female, "+36709665544", "nancyTheWeedQueen@gethigh.com");
             PersonSerializable person4 = new PersonSerializable();
             PersonSerializable person5 = new PersonSerializable();
-            person4.Name = "Carol";
+            person4.Name = "Marilyn";
             person4.BirthDate = new DateTime(1989, 03, 24);
             person4.Gender = Genders.Female;
+            person4.PhoneNumber = "+361222333";
+            person4.EmailAddress = "marilynNotManson@peace.com";
             person4.SetAge();
             //person4.Age = person4.Age;
 
@@ -36,7 +38,7 @@ namespace SerializePeople
             {
                 File.Delete("serializedPerson.bin");
             }
-            PersonSerializable personToSerialize = new PersonSerializable("Mr Serializ Ed", new DateTime(1977, 05, 25), Genders.Male);
+            PersonSerializable personToSerialize = new PersonSerializable("Mr Serializ Ed", new DateTime(1977, 05, 25), Genders.Male, "0690666888", "serialNotKiller@izable.net");
             //Console.WriteLine("before serialize\n" + personToSerialize);
             PersonSerializable.SerializePerson(personToSerialize, "serializedPerson.bin");
             Console.WriteLine("Person is serialized. \n");
