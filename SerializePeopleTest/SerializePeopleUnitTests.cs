@@ -19,7 +19,7 @@ namespace SerializePeopleTest
             controlPerson.Name = "MrTestPerson";
             controlPerson.BirthDate = new DateTime(1987, 03, 31);
             controlPerson.Gender = Genders.Male;
-            controlPerson.Age = 30;
+            controlPerson.SetAge();
 
             // Act  
             PersonSerializable testPerson = new PersonSerializable("MrTestPerson", new DateTime(1987, 03, 31), Genders.Male);
@@ -50,7 +50,7 @@ namespace SerializePeopleTest
         #region Serialization tests
 
         [TestMethod]
-        public void Test_Serialize_Created_The_File()
+        public void Test_Serialize_Create_The_File()
         {
             // Arrange
             if (File.Exists("serializedPerson.bin"))
@@ -60,7 +60,7 @@ namespace SerializePeopleTest
             PersonSerializable personToSerialize = new PersonSerializable("MrSerialized", new DateTime(1977, 05, 25), Genders.Male);
 
             // Act
-            personToSerialize.Serialize(personToSerialize, "serializedPerson.bin");
+            PersonSerializable.SerializePerson(personToSerialize, "serializedPerson.bin");
             bool controlBool = File.Exists("serializedPerson.bin");
 
             // Assert
@@ -76,10 +76,10 @@ namespace SerializePeopleTest
             {
                 File.Delete("serializedPerson.bin");
             }
-            controlPersonToDeserialize.Serialize(controlPersonToDeserialize, "serializedPerson.bin");
+            PersonSerializable.SerializePerson(controlPersonToDeserialize, "serializedPerson.bin");
 
             // Act
-            PersonSerializable testPersonToDeserialize = Deserialize("serializedPerson.bin");
+            PersonSerializable testPersonToDeserialize = DeserializePerson("serializedPerson.bin");
             bool testBool = controlPersonToDeserialize.Equals(testPersonToDeserialize);
 
             // Assert

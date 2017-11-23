@@ -6,19 +6,37 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace SerializePeople
 {
     [Serializable]
-    public class PersonSerializable
+    public class PersonSerializable : ISerializable, IDeserializationCallback
     {
-        #region Fields
+        #region Fields and Properties
 
         public enum Genders { Male, Female };
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }
         public Genders Gender { get; set; }
-        public int Age { get; set; }
+        [NonSerialized]private int age;
+        //public int Age
+        //{
+        //    get
+        //    {
+        //        // Save today's date.
+        //        var today = DateTime.Today;
+        //        // Calculate the age.
+        //        age = today.Year - BirthDate.Year;
+        //        // Go back to the year the person was born in case of a leap year
+        //        if (BirthDate > today.AddYears(-age)) age--;
+        //        return age;
+        //    }
+        //    set
+        //    {
+        //        age = value;
+        //    }
+        //}
 
         #endregion
 
@@ -31,21 +49,30 @@ namespace SerializePeople
             this.Name = name;
             this.BirthDate = birthDate;
             this.Gender = gender;
-            this.Age = SetAge();
+            SetAge();
+            //this.Age = Age;
         }
 
         #endregion
 
         #region Basic Methods
 
-        public int SetAge()
+
+        public void SetAge()
         {
-            // Save today's date.
+            //Save today's date.
             var today = DateTime.Today;
             // Calculate the age.
-            var age = today.Year - BirthDate.Year;
+            age = today.Year - BirthDate.Year;
             // Go back to the year the person was born in case of a leap year
-            if (BirthDate > today.AddYears(-age)) age--;
+            if (BirthDate > today.AddYears(-age))
+            {
+                age--;
+            }
+        }
+
+        public int GetAge()
+        {
             return age;
         }
 
@@ -53,7 +80,7 @@ namespace SerializePeople
         {
             return  "Name: " + Name + "\n" +
                     "BirthDate: " + BirthDate.ToString("MM/dd/yyyy") + "\n" +
-                    "Age: " + Age + "\n" +
+                    "Age: " + age + "\n" +
                     "Gender: " + Gender;
         }
 
@@ -68,26 +95,83 @@ namespace SerializePeople
             {
                 return false;
             }
-            return (Name == person.Name) && (BirthDate == person.BirthDate) && (Age == person.Age) && (Gender == person.Gender);
+            return (Name == person.Name) && (BirthDate == person.BirthDate) && (age == person.age) && (Gender == person.Gender);
+        }
+
+        public bool Equals(PersonSerializable person)
+        {
+            if ((object)person == null)
+                return false;
+
+            return (Name == person.Name) && (BirthDate == person.BirthDate) && (age == person.age) && (Gender == person.Gender);
+        }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode() ^ BirthDate.GetHashCode() ^ age.GetHashCode() ^ Gender.GetHashCode();
         }
 
         #endregion
 
         #region Serialization Methods
 
-        public void Serialize(PersonSerializable peopleToSerialize, string output)
+        void IDeserializationCallback.OnDeserialization(Object sender)
+        {
+            //// After being deserialized, initialize the age field 
+
+            // Save today's date.
+            var today = DateTime.Today;
+            // Calculate the age.
+            age = today.Year - BirthDate.Year;
+            // Go back to the year the person was born in case of a leap year
+            if (BirthDate > today.AddYears(-age))
+            {
+                age--;
+            }
+        }
+
+        // This method is to serialize data. The method is called 
+        // on serialization.
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            // Use the AddValue method to specify serialized values.
+            info.AddValue("Name", Name, typeof(string));
+            info.AddValue("BirthDate", BirthDate, typeof(DateTime));
+            info.AddValue("Gender", Gender, typeof(Genders));
+        }
+
+        // The special constructor is used to deserialize values.
+        public PersonSerializable(SerializationInfo info, StreamingContext context)
+        {
+            // Reset the property value using the GetValue method.
+            Name = (string)info.GetValue("Name", typeof(string));
+            BirthDate = (DateTime)info.GetValue("BirthDate", typeof(DateTime));
+            Gender = (Genders)info.GetValue("Gender", typeof(Genders));
+        }
+
+        public static void SerializePerson(PersonSerializable personToSerialize, string output)
         {
             // Create file to save the data
             Stream writeStream = new FileStream(output, FileMode.Create, FileAccess.Write, FileShare.None);
             // Create and use a BinaryFormatter object to perform the serialization
             IFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(writeStream, peopleToSerialize);
-            // Close the file
-            writeStream.Close();
-
+            try
+            {
+                formatter.Serialize(writeStream, personToSerialize);
+            }
+            catch (SerializationException se)
+            {
+                Console.WriteLine("Failed to serialize. Reason: " + se.Message);
+                throw;
+            }
+            finally
+            {
+                // Close the file
+                writeStream.Close();
+            }
         }
 
-        public static PersonSerializable Deserialize(string input)
+        public static PersonSerializable DeserializePerson(string input)
         {
             try
             {
@@ -97,18 +181,20 @@ namespace SerializePeople
                 IFormatter formatter = new BinaryFormatter();
                 // Use the BinaryFormatter object to deserialize the data from the file
                 PersonSerializable deserializedPerson = (PersonSerializable)formatter.Deserialize(openStream);
-                // Close the file and return with the brand-new Person object
-                openStream.Close();
                 return deserializedPerson;
-
-            } 
-            catch (FileNotFoundException e)
-            {
-                Console.WriteLine(e.StackTrace);
             }
-
+            catch (SerializationException se)
+            {
+                Console.WriteLine("Failed to deserialize. Reason: " + se.Message);
+                throw;
+            }
+            catch (FileNotFoundException fe)
+            {
+                Console.WriteLine("Failed to deserialize. Reason: " + fe.Message);
+            }
             return null;
         }
+
 
         #endregion
     }
