@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializePeopleTest", "Seri
 		{7D1C9394-C097-4F76-A162-67ADFABD51A8} = {7D1C9394-C097-4F76-A162-67ADFABD51A8}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleThreadingDemo", "SimpleThreadingDemo\SimpleThreadingDemo.csproj", "{A28C74A3-9227-4DA5-90B5-84D99051C610}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,14 @@ Global
 		{87C35B4C-EFC4-4CC0-87B9-FA6D1A23448C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{87C35B4C-EFC4-4CC0-87B9-FA6D1A23448C}.Release|x86.ActiveCfg = Release|Any CPU
 		{87C35B4C-EFC4-4CC0-87B9-FA6D1A23448C}.Release|x86.Build.0 = Release|Any CPU
+		{A28C74A3-9227-4DA5-90B5-84D99051C610}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A28C74A3-9227-4DA5-90B5-84D99051C610}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A28C74A3-9227-4DA5-90B5-84D99051C610}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A28C74A3-9227-4DA5-90B5-84D99051C610}.Debug|x86.Build.0 = Debug|Any CPU
+		{A28C74A3-9227-4DA5-90B5-84D99051C610}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A28C74A3-9227-4DA5-90B5-84D99051C610}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A28C74A3-9227-4DA5-90B5-84D99051C610}.Release|x86.ActiveCfg = Release|Any CPU
+		{A28C74A3-9227-4DA5-90B5-84D99051C610}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
