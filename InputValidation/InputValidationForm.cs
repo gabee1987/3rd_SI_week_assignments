@@ -4,12 +4,15 @@ using SerializePeople;
 using static SerializePeople.PersonSerializable;
 using System.Globalization;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace InputValidation
 {
     public partial class InputValidationForm : Form
     {
         PersonSerializable personToSave = new PersonSerializable();
+        private bool correctData = false;
         public InputValidationForm()
         {
             InitializeComponent();
@@ -24,6 +27,7 @@ namespace InputValidation
             SetPhoneErrorProviderToTextBox(PhoneTextBox);
             SetEmailErrorProviderToTextBox(EmailTextBox);
             SetDoneButtonErrorProviderToButton(DoneButton);
+            SetEmailSendErrorProviderToTextBox(EmailToTextBox);
 
             // Set BirthDate TextBox mask and rejectEventHandler
             BirthDateMaskedTextBox.Mask = "00/00/0000";
@@ -87,10 +91,17 @@ namespace InputValidation
                 PreviewPersonDataListView.Items.Add("Gender: " + personToSave.Gender.ToString());
                 PreviewPersonDataListView.Items.Add("Phone number: " + personToSave.PhoneNumber.ToString());
                 PreviewPersonDataListView.Items.Add("Email address: " + personToSave.EmailAddress.ToString());
+
+                correctData = true;
             }
             else
             {
                 doneButtonErrorProvider.SetError(DoneButton, "Not all data is correct.");
+                //Task.Factory.StartNew(() =>
+                //{
+                //    System.Threading.Thread.Sleep(3000);
+                //    ClearDoneButtonErrorProvider();
+                //});
             }
 
         }
@@ -162,6 +173,48 @@ namespace InputValidation
             PreviewPersonDataListView.Items.Clear();
         }
 
+        private void EmailToTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (RegexValidation.IsEmailValid(EmailToTextBox.Text))
+            {
+                nameErrorProvider.SetError(EmailToTextBox, String.Empty);
+                SendEmailButton.Enabled = true;
+            }
+            else
+            {
+                nameErrorProvider.SetError(EmailToTextBox, "Invalid email format.");
+            }
+        }
+
+        private void AddEmailButton_Click(object sender, EventArgs e)
+        {
+            DialogResult emailResult = SendEmailDialog.SendEmailInputBox("Send Person Data to Email", "Enter an email address to send");
+            //Check InputBox result
+            if (emailResult == System.Windows.Forms.DialogResult.OK)
+            {
+                EmailToTextBox.Text = SendEmailDialog.ResultValue;
+                EmailToTextBox.Visible = true;
+            }
+        }
+
+        private void SendEmailButton_Click(object sender, EventArgs e)
+        {
+            string fromEmailAddress = "gabee1987@gmail.com";
+            string toEmailAddress = EmailToTextBox.Text;
+            string emailSubject = "Person Data";
+            string emailBody = PreviewPersonDataListView.Text;
+            string username = "gabee1987@gmail.com";
+            string password = "KonGabee198701Ab";
+            if (PreviewPersonDataListView.Items.Count > 0)
+            {
+                EmailSending.SendEmail(fromEmailAddress, toEmailAddress, emailSubject, emailBody, username, password);
+            }
+            else
+            {
+                MessageBox.Show("Cannot send email. Person Data is not complete.", "Alert!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
         #endregion
 
         #region ErrorProviders
@@ -194,9 +247,17 @@ namespace InputValidation
         private void SetDoneButtonErrorProviderToButton(Button buttonToAdd)
         {
             doneButtonErrorProvider = new ErrorProvider();
-            doneButtonErrorProvider.SetIconAlignment(buttonToAdd, ErrorIconAlignment.MiddleRight);
+            doneButtonErrorProvider.SetIconAlignment(buttonToAdd, ErrorIconAlignment.MiddleLeft);
             doneButtonErrorProvider.SetIconPadding(buttonToAdd, 2);
             doneButtonErrorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+        }
+
+        private void SetEmailSendErrorProviderToTextBox(TextBox textBoxToAdd)
+        {
+            emailSendErrorProvider = new ErrorProvider();
+            emailSendErrorProvider.SetIconAlignment(textBoxToAdd, ErrorIconAlignment.MiddleRight);
+            emailSendErrorProvider.SetIconPadding(textBoxToAdd, 2);
+            emailSendErrorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
         }
 
         #endregion
@@ -281,6 +342,11 @@ namespace InputValidation
             personToSave.EmailAddress = email;
             personToSave.SetAge();
         }
+
+        //private void ClearDoneButtonErrorProvider()
+        //{
+        //    doneButtonErrorProvider.SetError(DoneButton, String.Empty);
+        //}
 
         #endregion
 

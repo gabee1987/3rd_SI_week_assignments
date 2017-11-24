@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SendEmailDialog.cs" />
+    <Compile Include="EmailSending.cs" />
     <Compile Include="InputValidationForm.cs">
       <SubType>Form</SubType>
     </Compile>
