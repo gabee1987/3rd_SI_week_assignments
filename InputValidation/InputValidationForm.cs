@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net.Mail;
 
 namespace InputValidation
 {
@@ -93,6 +94,7 @@ namespace InputValidation
                 PreviewPersonDataListView.Items.Add("Email address: " + personToSave.EmailAddress.ToString());
 
                 correctData = true;
+                doneButtonErrorProvider.SetError(DoneButton, String.Empty);
             }
             else
             {
@@ -199,15 +201,15 @@ namespace InputValidation
 
         private void SendEmailButton_Click(object sender, EventArgs e)
         {
-            string fromEmailAddress = "gabee1987@gmail.com";
-            string toEmailAddress = EmailToTextBox.Text;
+            string fromEmailAddressString = "gabee1987@gmail.com";
+            string toEmailAddressString = EmailToTextBox.Text;
             string emailSubject = "Person Data";
             string emailBody = PreviewPersonDataListView.Text;
             string username = "gabee1987@gmail.com";
             string password = "KonGabee198701Ab";
             if (PreviewPersonDataListView.Items.Count > 0)
             {
-                EmailSending.SendEmail(fromEmailAddress, toEmailAddress, emailSubject, emailBody, username, password);
+                EmailSending.SendEmail(fromEmailAddressString, toEmailAddressString, emailSubject, emailBody, username, password);
             }
             else
             {
