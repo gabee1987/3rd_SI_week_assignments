@@ -10,8 +10,54 @@ namespace InputValidationTest
 
         #region IsNameValid method tests
 
+        // Standard cases
         [TestMethod]
-        public void Test_IsNameValid_CanHandleNullInput()
+        public void Test_IsNameValid_Can_Accept_Normal_FirstName_FamilyName_Combination_Separated_By_Space()
+        {
+            // Arrange 
+            string testInput = "FirstName FamilyName";
+            bool expected = true;
+
+            // Act  
+            bool control = RegexValidation.IsNameValid(testInput);
+
+            // Assert 
+            Assert.AreEqual(expected, control);
+        }
+
+        // Boundary cases
+        [TestMethod]
+        public void Test_IsNameValid_Can_Accept_One_Syllable()
+        {
+            // Arrange 
+            string testInput = "FirstName";
+            bool expected = false;
+
+            // Act  
+            bool control = RegexValidation.IsNameValid(testInput);
+
+            // Assert 
+            Assert.AreEqual(expected, control);
+        }
+
+        // Boundary cases
+        [TestMethod]
+        public void Test_IsNameValid_Can_Accept_Normal_FirstName_FamilyName_Combination_Separated_By_Symbol()
+        {
+            // Arrange 
+            string testInput = "FirstName.FamilyName";
+            bool expected = false;
+
+            // Act  
+            bool control = RegexValidation.IsNameValid(testInput);
+
+            // Assert 
+            Assert.AreEqual(expected, control);
+        }
+
+        // Incorrect cases
+        [TestMethod]
+        public void Test_IsNameValid_Can_Handle_NullInput()
         {
             // Arrange 
             string testInput = null;
@@ -25,7 +71,7 @@ namespace InputValidationTest
         }
 
         [TestMethod]
-        public void Test_IsNameValid_CanAcceptWriteSigns()
+        public void Test_IsNameValid_Can_Accept_Symbols()
         {
             // Arrange 
             string testInput = "firstName $!%/";
@@ -39,7 +85,7 @@ namespace InputValidationTest
         }
 
         [TestMethod]
-        public void Test_IsNameValid_CanAcceptNumbers()
+        public void Test_IsNameValid_Can_Accept_Numbers()
         {
             // Arrange 
             string testInput = "firstName 12345";
@@ -52,68 +98,14 @@ namespace InputValidationTest
             Assert.AreEqual(expected, control);
         }
 
-        [TestMethod]
-        public void Test_IsNameValid_CanAcceptOneSyllable()
-        {
-            // Arrange 
-            string testInput = "firstName";
-            bool expected = false;
-
-            // Act  
-            bool control = RegexValidation.IsNameValid(testInput);
-
-            // Assert 
-            Assert.AreEqual(expected, control);
-        }
 
         #endregion
 
         #region IsPhoneValid method tests
 
+        // Standard cases
         [TestMethod]
-        public void Test_IsPhoneValid_CanHandleNullInput()
-        {
-            // Arrange
-            string testInput = null;
-            bool expected = false;
-
-            // Act
-            bool control = RegexValidation.IsPhoneValid(testInput);
-
-            // Assert
-            Assert.AreEqual(expected, control);
-        }
-
-        [TestMethod]
-        public void Test_IsPhoneValid_CanAcceptOtherThanNumbers()
-        {
-            // Arrange
-            string testInput = "this isnt a phone number";
-            bool expected = false;
-
-            // Act
-            bool control = RegexValidation.IsPhoneValid(testInput);
-
-            // Assert
-            Assert.AreEqual(expected, control);
-        }
-
-        [TestMethod]
-        public void Test_IsPhoneValid_CanAcceptPhoneNumberWithoutCountryCode()
-        {
-            // Arrange
-            string testInput = "30 986 6768";
-            bool expected = false;
-
-            // Act
-            bool control = RegexValidation.IsPhoneValid(testInput);
-
-            // Assert
-            Assert.AreEqual(expected, control);
-        }
-
-        [TestMethod]
-        public void Test_IsPhoneValid_CanAcceptPhoneNumberWithSpaces()
+        public void Test_IsPhoneValid_Can_Accept_Phone_Number_With_Spaces()
         {
             // Arrange
             string testInput = "+36 30 986 6768";
@@ -127,35 +119,7 @@ namespace InputValidationTest
         }
 
         [TestMethod]
-        public void Test_IsPhoneValid_CanAcceptShorterPhoneNumber()
-        {
-            // Arrange
-            string testInput = "+36 30 986";
-            bool expected = false;
-
-            // Act
-            bool control = RegexValidation.IsPhoneValid(testInput);
-
-            // Assert
-            Assert.AreEqual(expected, control);
-        }
-
-        [TestMethod]
-        public void Test_IsPhoneValid_CanAcceptLongerPhoneNumber()
-        {
-            // Arrange
-            string testInput = "+36-30-986-67681111";
-            bool expected = false;
-
-            // Act
-            bool control = RegexValidation.IsPhoneValid(testInput);
-
-            // Assert
-            Assert.AreEqual(expected, control);
-        }
-
-        [TestMethod]
-        public void Test_IsPhoneValid_CanAcceptPhoneNumberWithHyphenSigns()
+        public void Test_IsPhoneValid_Can_Accept_PhoneNumber_With_Hyphen_Signs()
         {
             // Arrange
             string testInput = "+36-30-986-6768";
@@ -169,7 +133,7 @@ namespace InputValidationTest
         }
 
         [TestMethod]
-        public void Test_IsPhoneValid_CanAcceptPhoneNumberWithSlashSigns()
+        public void Test_IsPhoneValid_Can_Accept_PhoneNumber_With_Slash_Signs()
         {
             // Arrange
             string testInput = "+36/30/986/6768";
@@ -182,8 +146,81 @@ namespace InputValidationTest
             Assert.AreEqual(expected, control);
         }
 
+        // Boundary cases
         [TestMethod]
-        public void Test_IsPhoneValid_CanAcceptPhoneNumberWithBackSlashSigns()
+        public void Test_IsPhoneValid_Can_Accept_Phone_Number_Without_CountryCode()
+        {
+            // Arrange
+            string testInput = "30 986 6768";
+            bool expected = false;
+
+            // Act
+            bool control = RegexValidation.IsPhoneValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+        // Incorrect cases
+        [TestMethod]
+        public void Test_IsPhoneValid_Can_Handle_NullInput()
+        {
+            // Arrange
+            string testInput = null;
+            bool expected = false;
+
+            // Act
+            bool control = RegexValidation.IsPhoneValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+        [TestMethod]
+        public void Test_IsPhoneValid_Can_Accept_Other_Than_Numbers()
+        {
+            // Arrange
+            string testInput = "this isnt a phone number";
+            bool expected = false;
+
+            // Act
+            bool control = RegexValidation.IsPhoneValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+        [TestMethod]
+        public void Test_IsPhoneValid_Can_Accept_Shorter_PhoneNumber()
+        {
+            // Arrange
+            string testInput = "+36 30 986";
+            bool expected = false;
+
+            // Act
+            bool control = RegexValidation.IsPhoneValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+        [TestMethod]
+        public void Test_IsPhoneValid_Can_Accept_Longer_PhoneNumber()
+        {
+            // Arrange
+            string testInput = "+36-30-986-67681111";
+            bool expected = false;
+
+            // Act
+            bool control = RegexValidation.IsPhoneValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+
+        [TestMethod]
+        public void Test_IsPhoneValid_Can_Accept_PhoneNumber_With_BackSlash_Signs()
         {
             // Arrange
             string testInput = @"+36\30\986\6768";
@@ -197,7 +234,7 @@ namespace InputValidationTest
         }
 
         [TestMethod]
-        public void Test_IsPhoneValid_CanAcceptPhoneNumberWithPlusSigns()
+        public void Test_IsPhoneValid_Can_Accept_PhoneNumber_With_Plus_Signs()
         {
             // Arrange
             string testInput = @"+36+30+986+6768";
@@ -211,7 +248,7 @@ namespace InputValidationTest
         }
 
         [TestMethod]
-        public void Test_IsPhoneValid_CanAcceptPhoneNumberWithMultiplySigns()
+        public void Test_IsPhoneValid_Can_Accept_PhoneNumber_With_Multiply_Signs()
         {
             // Arrange
             string testInput = @"+36*30*986*6768";
@@ -228,39 +265,12 @@ namespace InputValidationTest
 
         #region IsEmailValid method tests
 
+        // Standard cases
         [TestMethod]
-        public void Test_IsEmailValid_CanHandleNullInput()
+        public void Test_IsEmailValid_Can_Accept_Valid_Signs()
         {
             // Arrange
-            string testInput = null;
-            bool expected = false;
-
-            // Act
-            bool control = RegexValidation.IsEmailValid(testInput);
-
-            // Assert
-            Assert.AreEqual(expected, control);
-        }
-
-        [TestMethod]
-        public void Test_IsEmailValid_CanAcceptUnvalidSignsInLocalPart()
-        {
-            // Arrange
-            string testInput = @"gabee[1987]@gmail.com";
-            bool expected = false;
-
-            // Act
-            bool control = RegexValidation.IsEmailValid(testInput);
-
-            // Assert
-            Assert.AreEqual(expected, control);
-        }
-
-        [TestMethod]
-        public void Test_IsEmailValid_CanAccepValidSigns()
-        {
-            // Arrange
-            string testInput = @"gabee+1987@gmail.com";
+            string testInput = @"gabee!#$%&'*+-/=?^_`{|}~1987@gmail.com";
             bool expected = true;
 
             // Act
@@ -271,7 +281,7 @@ namespace InputValidationTest
         }
 
         [TestMethod]
-        public void Test_IsEmailValid_CanAcceptDotSeparatedLocalPart()
+        public void Test_IsEmailValid_Can_Accept_Dot_Separated_LocalPart()
         {
             // Arrange
             string testInput = @"gabee.1987@gmail.com";
@@ -285,7 +295,52 @@ namespace InputValidationTest
         }
 
         [TestMethod]
-        public void Test_IsEmailValid_CanAcceptAddressWithoutAtSign()
+        public void Test_IsEmailValid_Can_Accept_Address_With_Hyphen_Separated_DomainPart()
+        {
+            // Arrange
+            string testInput = @"gabee1987@gmail.cc-com";
+            bool expected = true;
+
+            // Act
+            bool control = RegexValidation.IsEmailValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+        // Incorrect cases
+        [TestMethod]
+        public void Test_IsEmailValid_Can_Handle_NullInput()
+        {
+            // Arrange
+            string testInput = null;
+            bool expected = false;
+
+            // Act
+            bool control = RegexValidation.IsEmailValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+        [TestMethod]
+        public void Test_IsEmailValid_Can_Accept_Unvalid_Signs_In_LocalPart()
+        {
+            // Arrange
+            string testInput = @"gabee[1987]@gmail.com";
+            bool expected = false;
+
+            // Act
+            bool control = RegexValidation.IsEmailValid(testInput);
+
+            // Assert
+            Assert.AreEqual(expected, control);
+        }
+
+
+
+        [TestMethod]
+        public void Test_IsEmailValid_Can_Accept_Address_Without_AtSign()
         {
             // Arrange
             string testInput = @"gabee.1987gmail.com";
@@ -299,7 +354,7 @@ namespace InputValidationTest
         }
 
         [TestMethod]
-        public void Test_IsEmailValid_CanAcceptUnvalidSignInDomainPart()
+        public void Test_IsEmailValid_Can_Accept_Unvalid_Sign_In_DomainPart()
         {
             // Arrange
             string testInput = @"gabee1987@gmail'unvalid'.com";
@@ -313,7 +368,7 @@ namespace InputValidationTest
         }
 
         [TestMethod]
-        public void Test_IsEmailValid_CanAcceptAddressWithoutDomainPart()
+        public void Test_IsEmailValid_Can_Accept_Address_Without_DomainPart()
         {
             // Arrange
             string testInput = @"gabee1987@gmail";
@@ -327,25 +382,11 @@ namespace InputValidationTest
         }
 
         [TestMethod]
-        public void Test_IsEmailValid_CanAcceptAddressWithUnvalidDomainPart()
+        public void Test_IsEmailValid_Can_Accept_Address_With_Unvalid_DomainPart()
         {
             // Arrange
             string testInput = @"gabee1987@gmail.c";
             bool expected = false;
-
-            // Act
-            bool control = RegexValidation.IsEmailValid(testInput);
-
-            // Assert
-            Assert.AreEqual(expected, control);
-        }
-
-        [TestMethod]
-        public void Test_IsEmailValid_CanAcceptAddressWithHyphenSeparatedDomainPart()
-        {
-            // Arrange
-            string testInput = @"gabee1987@gmail.cc-com";
-            bool expected = true;
 
             // Act
             bool control = RegexValidation.IsEmailValid(testInput);
